@@ -31,20 +31,45 @@ render(){
             shopping cart
         </h4>
         <div className="row">
-        {this.state.products.map(product =>{
-            return <Product key ={product.id}id={product.id} productName={product.productName} price={product.price} quantity={product.quantity} onincrement={this.handleincrement} ondecrement={this.handledecrement}>
+        {this.state.products.map((prod) =>{
+            return <Product key ={prod.id}id={prod.id} productName={prod.productName} 
+            price={prod.price} quantity={prod.quantity} product={prod}
+            onincrement={this.handleincrement} ondecrement={this.handledecrement}>
                <button className="btn btn-primary">Buy Now</button>
             </Product>
         })}
         </div>
     </div>
 }
-handleincrement =() =>{
-    console.log("handleIncrement")
+// getting all products then updating the state with a js method
+handleincrement =(product,maxValue) =>{
+    let allPorduct =[...this.state.products]
+    let index= allPorduct.indexOf(product)
+    
+//updating the state of the component by using setstate 
+if(allPorduct[index].quantity < maxValue){
+    allPorduct[index].quantity++
+    this.setState({products:allPorduct})
+}
+   
+    
+   
+    console.log(allPorduct[index])
     }
+// getting all products then updating the state with a js method
 
-handledecrement =() =>{
-    console.log("handledecrement")
+handledecrement =(product,minValue) =>{
+    
+    let allPorduct =[...this.state.products]
+    let index= allPorduct.indexOf(product)
+ //updating the state of the component by using setstate
+ if(allPorduct[index].quantity > minValue){
+    allPorduct[index].quantity--
+    this.setState({products: allPorduct})
+ }
+    
+    
+    console.log("handleIncrement",product,index)
     
     }
 }

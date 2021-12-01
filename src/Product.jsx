@@ -1,6 +1,8 @@
 import React, { Component } from "react";
 
 export default class Product extends Component{
+   state ={id:this.props.product.id,productName:this.props.product.productName
+        ,price:this.props.product.price,quantity:this.props.product.quantity,product:this.props.product}
     render() {
         return (
             // receiving info from parent class to child class
@@ -23,10 +25,12 @@ export default class Product extends Component{
                         {this.props.quantity}
                     </span>
                     <div className="btn-group">
-                        <button className="btn btn-outline-success"onClick={this.props.onincrement}>
+                        <button className="btn btn-outline-success"
+                        onClick={()=>{this.props.onincrement(this.state.product,20)}}>
                             + 
                         </button>
-                        <button className="btn btn-outline-success"onClick={this.props.ondecrement}>
+                        <button className="btn btn-outline-success"
+                        onClick={()=>{this.props.ondecrement(this.state.product,0)}}>
                             -
                         </button>
                     </div>
