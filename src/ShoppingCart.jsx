@@ -2,29 +2,19 @@ import React,{Component} from "react";
 import Product from "./Product";
 
 export default class ShoppingCart extends Component{
-    state = {
+   constructor(props) {
+       console.log("inside of constructor")
+       super(props);
+   this.state = {
         products:[
-            {
-                id:1,productName:"iphone",price:8900,quantity:10
-            },
-            {
-                id:2,productName:"Sony Camera",price:4999,quantity:10
-            },
-            {
-                id:3,productName:"ipad pro",price:1999,quantity:10
-            },
-            {
-                id:4,productName:"xbox",price:599,quantity:10
-            },
-            {
-                id:5,productName:"samsung",price:6000,quantity:10
-            },
-            {
-                id:6,productName:"samsung curve",price:6000,quantity:10
-            }
+           
         ]
     }
+   }
+    
 render(){
+    console.log("inside render")
+
     // passing information from parent to child class using props 
     return <div className="container-fluid">
         <h4>
@@ -33,14 +23,35 @@ render(){
         <div className="row">
         {this.state.products.map((prod) =>{
             return <Product key ={prod.id}id={prod.id} productName={prod.productName} 
-            price={prod.price} quantity={prod.quantity} product={prod}
-            onincrement={this.handleincrement} ondecrement={this.handledecrement}>
+            price={prod.price} quantity={prod.quantity} product={prod} photo={prod.photo}
+            onincrement={this.handleincrement} ondecrement={this.handledecrement} 
+            onDelete ={this.handledelete}>
                <button className="btn btn-primary">Buy Now</button>
             </Product>
         })}
         </div>
     </div>
 }
+componentDidUpdate(prevProps,prevState) { 
+    // accepts http request
+    console.log("inside of component did update"
+    ,prevState,
+    this.props,this.state ,prevState)
+
+}
+componentDidMount= async()=>{
+    // accepts http request
+    //console.log("inside of component did mount")
+ var response =await fetch("http://localhost:5000/products",{method: "GET"})
+  var prods = await response.json()
+  this.setState({products: prods})
+ console.log(prods)
+}
+componentWillUnmount(){
+    console.log("inside of component did will unmount")
+
+}
+
 // getting all products then updating the state with a js method
 handleincrement =(product,maxValue) =>{
     let allPorduct =[...this.state.products]
@@ -57,6 +68,20 @@ if(allPorduct[index].quantity < maxValue){
     console.log(allPorduct[index])
     }
 // getting all products then updating the state with a js method
+handledelete =(product) =>{
+    let allPorduct =[...this.state.products]
+    let index= allPorduct.indexOf(product)
+    if(window.confirm("Are you sure you want to delete")){
+        allPorduct.splice(index, 1)
+        this.setState({products: allPorduct})
+
+
+    }
+    // delete product using index
+     //updating the state of the component by using setstate
+
+
+}
 
 handledecrement =(product,minValue) =>{
     
@@ -68,7 +93,7 @@ handledecrement =(product,minValue) =>{
     this.setState({products: allPorduct})
  }
     
-    
+     
     console.log("handleIncrement",product,index)
     
     }

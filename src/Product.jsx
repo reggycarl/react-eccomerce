@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 
 export default class Product extends Component{
-   state ={id:this.props.product.id,productName:this.props.product.productName
+   state ={id:this.props.product.id,productName:this.props.product.productName,photo:this.props.product.photo
         ,price:this.props.product.price,quantity:this.props.product.quantity,product:this.props.product}
     render() {
         return (
@@ -12,10 +12,15 @@ export default class Product extends Component{
                    
                     <div className="text-muted">
                 
-                    Product #{this.props.id}</div>
-                    <h5 className="p-2 border-top">{this.props.productName}</h5>
+                    Product #{this.props.id}
+                    <span className="pull-right hand-icon"onClick={()=>{this.props.onDelete(this.state.product)}}>
+                        <i className="fa fa-trash" ></i>
+                    </span>
+                    </div>
+                    <div className="">
+                    <img src={this.props.photo} alt = " Customer"/>                    <h5 className="p-2 border-top">{this.props.productName}</h5>
                     <div className="">${this.props.price}</div>
-
+                    </div>
                    
                 </div>
 
